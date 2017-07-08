@@ -43,14 +43,13 @@ class DogFilterView(generics.RetrieveAPIView):
     permission_classes = (permissions.IsAuthenticated,)
     serializer_class = serializers.DogSerializer
 
-    def get_ids(self, queryset=None):
+    def get_ids(self, queryset):
         if queryset is not None:
             return [userdog.dog.pk for userdog in queryset]
         return []
 
     def filter_pref(self, dog_filter, user_prefs):
-        userdog_query = models.UserDog.objects.filter(user=user_prefs.user.pk
-                                                      ).select_related('dog')
+        userdog_query = models.UserDog.objects.select_related('dog').filter(user=user_prefs.user.pk)
         ages = get_ages(user_prefs.age)
         queryset = models.Dog.objects.filter(
             gender__in = user_prefs.gender.split(','),

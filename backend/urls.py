@@ -36,9 +36,3 @@ urlpatterns = [
     url(r'^api-token-auth/', views.obtain_auth_token),
     url(r'^api/', include(router.urls, namespace='api'))
 ]
-
-if settings.DEBUG:
-    urlpatterns += staticfiles_urlpatterns()
-    urlpatterns += static(
-        settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-
